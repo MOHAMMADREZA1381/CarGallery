@@ -26,6 +26,10 @@ public class Car
     [Required(ErrorMessage = "Enter PVinCarrice")]
     public string VinCar { get; private set; }
     public CarState CarState { get; private set; }
+
+    public ICollection<CarImg> CarImgs{ get; set; }
+
+
 }
 
 public enum CarState
