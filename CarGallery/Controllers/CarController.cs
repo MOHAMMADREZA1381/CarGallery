@@ -30,5 +30,16 @@ namespace CarGallery.Controllers
 
             return BadRequest();
         }
+
+        [HttpGet("GetAllCars")]
+        public async Task<IActionResult> GetAllCars() 
+        {
+            var Cars = await _service.GetAllCars();
+
+            return Ok();
+        }
+    
+    
+    
     }
 }
