@@ -8,7 +8,7 @@ public interface ICarService
 {
 
     Task AddCar(AddCarCommand car);
-    Task EditCar(Car car);
+    Task EditCar(EditCarCommand car);
     Task DeleteCar(int Id);
     Task<Car> GetCarById(int Id);
     Task<ICollection<CarDTO>> GetAllCars();
