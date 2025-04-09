@@ -34,14 +34,15 @@ public class CarService : ICarService
         }
     }
 
-    public Task EditCar(Car car)
+    public async Task EditCar(EditCarCommand car)
     {
-        throw new NotImplementedException();
+        var Car = await _repository.GetCarById(car.Id);
+        Car.EditCar(car.CarBrand, car.YearCar, car.Color, car.Price, car.VinCar);
     }
 
-    public Task DeleteCar(int Id)
+    public async Task DeleteCar(int Id)
     {
-        throw new NotImplementedException();
+        await _repository.DeleteCar(Id);
     }
 
     public Task<Car> GetCarById(int Id)

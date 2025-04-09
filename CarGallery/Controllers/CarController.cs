@@ -38,8 +38,13 @@ namespace CarGallery.Controllers
 
             return Ok();
         }
-    
-    
-    
+
+        public async Task<IActionResult> DeleteCar(int id) 
+        {
+        await _service.DeleteCar(id);
+            return Ok();
+        }
+
+
     }
 }
