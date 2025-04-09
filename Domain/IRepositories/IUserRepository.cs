@@ -8,6 +8,8 @@ public interface IUserRepository
     Task<bool> CheckEmailExist(string email);
     Task<User> GetUserByEmail(string email);
     Task ChangePassword(int UserId,string Password);
+    Task ChangePasswordWithOtp(int UserId, string Password);
     Task ChangeUserLevel(int UserId, int Level);
     Task<string> GenerateOtp(int UserId,string OTP);
+    Task<User> GetUserById(int Id);
 }

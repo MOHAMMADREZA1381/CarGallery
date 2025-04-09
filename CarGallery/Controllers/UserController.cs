@@ -67,6 +67,11 @@ namespace CarGallery.Controllers
         }
 
 
+        [HttpPut("EditPassword")]
+        public async Task<IActionResult> ResetPassword()
+        {
+        }
+
     }
 }
  

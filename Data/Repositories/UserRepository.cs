@@ -50,6 +50,12 @@ public class UserRepository : IUserRepository
         await _connection._Dapper.ExecuteAsync(quet, new { Id = Password, Password = Password });
     }
 
+    public async Task ChangePasswordWithOtp(int Id, string Password)
+    {
+        var query = @"Update Users Set Password=@Password Where Id=@Id";
+        await _connection._Dapper.QueryAsync(query, new { Id = Id });
+    }
+
     public async Task ChangeUserLevel(int Id, int Level)
     {
         var quet = @"Update Users Set Level=@Level Where Id=@Id";
@@ -61,5 +67,12 @@ public class UserRepository : IUserRepository
         var query = @"Update Users Set OTP=@OTP Where Id=@Id ";
         await _connection._Dapper.ExecuteAsync(query, new {Id=Id,OTP=OTP });
         return OTP;
+    }
+
+    public async Task<User> GetUserById(int Id)
+    {
+        var query = @"Select c.* From Users AS c Where c.Id=@Id";
+       var User= await _connection._Dapper.QueryFirstAsync<User>(query, new { Id=Id});
+       return User;
     }
 }

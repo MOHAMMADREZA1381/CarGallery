@@ -57,4 +57,10 @@ public class UserService : IUserService
         };
         return DTO;
     }
+
+    public async Task ChangePassword(int UserId, string Password)
+    {
+       var User= await _repository.GetUserById(UserId);
+       User.ChangePassword(PasswordHelper.EncodePasswordSha256(Password));
+    }
 }
