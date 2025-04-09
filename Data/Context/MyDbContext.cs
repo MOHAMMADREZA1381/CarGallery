@@ -1,13 +1,17 @@
-﻿using Domain.Models;
+﻿using System.Data;
+using Domain.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Data.Context;
 
 public class MyDbContext : DbContext
 {
-    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
+    internal readonly IDbConnection _Dapper;
+    public MyDbContext(DbContextOptions<MyDbContext> options,IConfiguration configuration) : base(options)
     {
-
+        _Dapper = new SqlConnection(configuration.GetConnectionString("CarGalley"));
     }
 
 
