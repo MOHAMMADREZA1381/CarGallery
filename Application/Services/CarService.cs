@@ -1,4 +1,5 @@
 ﻿using Application.Command.Car;
+using Application.DTO.Car;
 using Application.ImageTools;
 using Application.ImageTools.Common;
 using Application.IServices;
@@ -48,9 +49,27 @@ public class CarService : ICarService
         throw new NotImplementedException();
     }
 
-    public Task<ICollection<Car>> GetAllCars()
+    public async Task<ICollection<CarDTO>> GetAllCars()
     {
-        throw new NotImplementedException();
+      var AllCars = await _repository.GetAllCars(); 
+        var cars = new List<CarDTO>();
+        foreach (var car in AllCars)
+        {
+            var dto=new CarDTO();
+            dto.CarBrand = car.CarBrand;
+            dto.Color = car.Color;
+            dto.Price = car.Price;
+            dto.VinCar = car.VinCar;
+            dto.YearCar = car.YearCar;
+            dto.CarState = car.CarState;
+            foreach (var item in car.CarImgs)
+            {
+                dto.imagepath.Add(item.Img);
+            }
+            cars.Add(dto);
+        }
+
+        return cars;
     }
 
     public async Task AddCatImg(int CarId, string Path)
