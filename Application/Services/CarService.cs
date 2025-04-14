@@ -78,4 +78,9 @@ public class CarService : ICarService
         var img = new CarImg(Path, CarId);
         await _repository.AddImgToCar(img);
     }
+
+    public Task EditCar(Car car)
+    {
+        throw new NotImplementedException();
+    }
 }
