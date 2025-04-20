@@ -3,6 +3,7 @@ using Data.Context;
 using Domain.IRepositories;
 using Domain.Models;
 using System.Drawing;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Data.Repositories;
 
@@ -23,7 +24,7 @@ public class CarRepository : ICarRepository
     {
         var query =
             @"Insert Into Cars (CarBrand,YearCar,Color,Price,VinCar,CarState) output inserted.Id Values (@CarBrand,@YearCar,@Color,@Price,@VinCar,@CarState)";
-      return await _context._Dapper.ExecuteAsync(query, new
+        return await _context._Dapper.ExecuteAsync(query, new
         {
             CarBrand = car.CarBrand,
             YearCar = car.YearCar,
@@ -57,28 +58,43 @@ public class CarRepository : ICarRepository
 
     public async Task<Car> GetCarById(int Id)
     {
-        var query = @"Select c.* From Cars c " +
-                   "Join CarImgs i ON i.CarId=c.Id";
-       
-         var Car= _context._Dapper.QueryAsync<Car, CarImg, Car>(query, (c, i) =>
+        var query = @"Select c.*,i.img From Cars AS c  " +
+                   "Join CarImgs i ON i.CarId=c.Id " +
+                   "Where c.Id=@Id";
+
+        var Car = _context._Dapper.QueryAsync<Car, CarImg, Car>(query, (c, i) =>
         {
-            if (i != null)c.CarImgs.Add(i);
+            if (c.CarImgs != null)
+            {
+                if (c.CarImgs == null)
+                {
+                    c.CarImgs = new List<CarImg>();
+                }
+                c.CarImgs.Add(i);
+            }
+
             return c;
-        },new {Id=Id}).Result.FirstOrDefault();
+        },new { Id = Id },splitOn:"Img").Result.FirstOrDefault();
         return Car;
     }
 
     public async Task<ICollection<Car>> GetAllCars()
     {
-        var query = @"Select c.* From Cars c " +
-                   "Join CarImgs i ON i.CarId=c.Id";
-        var carList= _context._Dapper.QueryAsync<Car,CarImg,Car>(query, (c, i) =>
+        var query = @"SELECT car.*,img.Img FROM Cars AS car " +
+                    "JOIN CarImgs img ON img.CarId=car.Id";
+        var carListWithImages = _context._Dapper.QueryAsync<Car, CarImg, Car>(query, (car, img) =>
         {
-            if (i != null) c.CarImgs.Add(i);
-           
-            return c;
-        }).Result.ToList();
-        return carList;
+            if (img != null)
+            {
+                if (car.CarImgs == null)
+                {
+                    car.CarImgs = new List<CarImg>();
+                }
+                car.CarImgs.Add(img);
+            }
+            return car;
+        }, splitOn: "Img").Result.ToList();
+        return carListWithImages;
     }
 
     public async Task AddImgToCar(CarImg img)

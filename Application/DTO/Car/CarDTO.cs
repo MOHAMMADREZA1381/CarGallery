@@ -16,6 +16,6 @@ namespace Application.DTO.Car
         public string CarBrand { get; set; }
         public float Price { get; set; }
         public CarState CarState { get; set; }
-        public List<string> imagepath { get; set; }
+        public List<string> imagepath { get; set; } = new List<string>();
     }
 }
