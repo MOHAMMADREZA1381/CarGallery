@@ -58,6 +58,11 @@ public class UserService : IUserService
         return DTO;
     }
 
+    public Task ChangePassword(int UserId, string Password)
+    {
+        throw new NotImplementedException();
+    }
+
     //public async Task ChangePassword(int UserId, string Password)
     //{
     //   var User= await _repository.GetUserById(UserId);

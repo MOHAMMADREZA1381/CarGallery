@@ -39,12 +39,19 @@ namespace CarGallery.Controllers
             return Ok();
         }
 
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteCar(int id) 
         {
         await _service.DeleteCar(id);
             return Ok();
         }
+        [HttpGet("GetCarById")]
+        public async Task<IActionResult> GetCarById(int id)
+        {
+            await _service.GetCarById(id);
+            return Ok();
 
+        }
 
-    }
+    } 
 }

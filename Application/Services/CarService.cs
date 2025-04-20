@@ -83,4 +83,17 @@ public class CarService : ICarService
     {
         throw new NotImplementedException();
     }
+
+    public async Task <Car> GetById (int id) 
+    {
+        var car = await _repository.GetCarById(id);
+
+             if (car == null)
+        {
+            throw new KeyNotFoundException($"Car with ID {id} not found.");
+        }
+
+        return car;
+
+    }
 }
