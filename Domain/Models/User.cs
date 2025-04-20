@@ -26,7 +26,7 @@ public class User
     public string Password { get; private set; }
     public UserLevel Level { get; private set; }
     public string? OTPCode { get; private set; }
-
+    public ICollection<Order> Orders{ get; set; }
 
     public void ChangeLevel(int id)
     {

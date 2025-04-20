@@ -9,6 +9,7 @@ public class Order
     [ForeignKey("UserId")]
     public User User{ get; set; }
     public BasketState State{ get; set; }
+    public ICollection<OrderItem>? OrderItems{ get; set; }
 }
 
 

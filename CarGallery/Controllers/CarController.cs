@@ -36,15 +36,25 @@ namespace CarGallery.Controllers
         {
             var Cars = await _service.GetAllCars();
 
-            return Ok();
+            return Ok(Cars);
         }
 
+        [HttpDelete("DeleteCar")]
         public async Task<IActionResult> DeleteCar(int id) 
         {
         await _service.DeleteCar(id);
             return Ok();
         }
 
+        [HttpGet("GetCarById")]
+        public async Task<IActionResult> GetCarById(int CarId)
+        {
+            if (ModelState.IsValid)
+            {
+                return Ok(await _service.GetCarById(CarId));
+            }
 
+            return BadRequest();
+        }
     }
 }

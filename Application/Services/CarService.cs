@@ -34,7 +34,7 @@ public class CarService : ICarService
         }
     }
 
-  
+
 
     public async Task EditCar(EditCarCommand car)
     {
@@ -47,27 +47,48 @@ public class CarService : ICarService
         await _repository.DeleteCar(Id);
     }
 
-    public Task<Car> GetCarById(int Id)
+    public async Task<CarDTO> GetCarById(int Id)
     {
-        throw new NotImplementedException();
+        var car = await _repository.GetCarById(Id);
+        var dto = new CarDTO();
+        dto.CarBrand = car.CarBrand;
+        dto.Color = car.Color;
+        dto.Price = car.Price;
+        dto.VinCar = car.VinCar;
+        dto.YearCar = car.YearCar;
+        dto.CarState = car.CarState;
+        dto.Id = car.Id;
+        if (car.CarImgs != null)
+        {
+            foreach (var item in car.CarImgs)
+            {
+                dto.imagepath.Add(item.Img);
+            }
+        }
+
+        return dto;
     }
 
     public async Task<ICollection<CarDTO>> GetAllCars()
     {
-      var AllCars = await _repository.GetAllCars(); 
+        var AllCars = await _repository.GetAllCars();
         var cars = new List<CarDTO>();
         foreach (var car in AllCars)
         {
-            var dto=new CarDTO();
+            var dto = new CarDTO();
             dto.CarBrand = car.CarBrand;
             dto.Color = car.Color;
             dto.Price = car.Price;
             dto.VinCar = car.VinCar;
             dto.YearCar = car.YearCar;
             dto.CarState = car.CarState;
-            foreach (var item in car.CarImgs)
+            dto.Id = car.Id;
+            if (car.CarImgs != null)
             {
-                dto.imagepath.Add(item.Img);
+                foreach (var item in car.CarImgs)
+                {
+                    dto.imagepath.Add(item.Img);
+                }
             }
             cars.Add(dto);
         }
