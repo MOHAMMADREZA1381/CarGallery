@@ -14,6 +14,9 @@ public class DependencyContainer
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICarRepository, CarRepository>();
         services.AddScoped<ICarService, CarService>();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+
 
 
     }
